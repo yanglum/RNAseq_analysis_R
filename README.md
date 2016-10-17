@@ -8,6 +8,7 @@ normalization and DEG analysis -> interpret results
 
 
 Alignment can be done using STAR
+
 Everything downstream can be done using R (Bioconductor package: https://www.bioconductor.org/)
 
 
@@ -18,8 +19,7 @@ matrix  (excel format included)
 
 ###################################################################################################################
 If count matrix not included, begin with BAM files
-
-Go through entire R workflow:
+and go through entire R workflow:
 
 
 0_load_libraries
