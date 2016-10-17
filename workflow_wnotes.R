@@ -220,7 +220,8 @@ plotPCA(vsd, 'Factors')
 # or
 plotPCA(vsd, intgroup = c('IP', 'Genotype'))
 
-# Run plotPCAWithSampleNames.R script
+# Run plotPCAWithSampleNames.R script 
+# https://gist.github.com/yanglum/00f76d65b55520cd4dbe88935bc66e4b
 plotPCAWithSampleNames(vsd, 'Factors')
 
 # Another way to plot PCA is using ggplot; 
