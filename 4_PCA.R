@@ -19,6 +19,13 @@ plotPCA(vsd, 'Factors')
 # or
 plotPCA(vsd, intgroup = c('IP', 'Genotype'))
 
+# Plotting PCA with sample names
+# Run plotPCAWithSampleNames.R script
+# https://gist.github.com/yanglum/00f76d65b55520cd4dbe88935bc66e4b
+plotPCAWithSampleNames(vsd, 'Factors')
+# or
+plotPCAWithSampleNames(vsd, c('IP', 'Genotype'))
+
 # Another way to plot PCA is using ggplot; 
 #  ask plotPCA to return the data for plot, rather than actually plotting it
 PCA.data = plotPCA(vsd, intgroup = c('IP', 'Genotype'), returnData=T)
