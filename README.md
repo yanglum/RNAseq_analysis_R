@@ -26,7 +26,6 @@ Go through entire R workflow:
 
 1_sortindex_bam          *Note IGV requires indexed BAM files
 
-
 2_gene_model
 
 3_make_count_matrix
@@ -47,8 +46,8 @@ go through
 alternative workflow:
 
 
-
 0_load_libraries 
+
 3alt_start_with_count_table
 
 4_PCA 
@@ -56,4 +55,5 @@ alternative workflow:
 5a_DESeq2 
 
 5b_edgeR 
+
 etc.
