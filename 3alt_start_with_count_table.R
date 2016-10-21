@@ -12,7 +12,8 @@
 
 # Store the sample metadata
 samples.meta = read.csv('samples_info_18bswitch.txt')
-# Store the table of counts
+
+# Store the table of counts (don't need to do this if used format_excel_files.R)
 counts = read.csv('count_matrix.txt')
 counts.mat = data.matrix(counts) # converts the data.frame to a matrix
 
