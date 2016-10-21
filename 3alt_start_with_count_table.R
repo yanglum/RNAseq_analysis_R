@@ -3,8 +3,10 @@
 #*IMPORTANT*: Counts must be raw counts (pre-normalization)
 
 # Save sample info metadata as a csv file named "samples_info_18bswitch.txt"
-#   Column1 should be sample names
+#   Column1 should be sample names, in same order as appear in count matrix.
+#   Other columns should indicate sample info, including factors to compare by, i.e. Genotype or Treatment
 # Save count matrix as a csv file named "count_matrix_ensembl.txt"
+#   Row1 should be sample names, in same order as appear in sample info metadata
 # The csv file must be formmated correctly
 # For help converting excel file into the correct csv format, use format_excel_file.R script
 
