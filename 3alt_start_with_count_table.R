@@ -5,17 +5,8 @@
 # Save sample info metadata as a csv file named "samples_info_18bswitch.txt"
 #   Column1 should be sample names
 # Save count matrix as a csv file named "count_matrix_ensembl.txt"
-# Converting count matrix excel file to csv for importing:
-#   Row(1) (Column names) should be sample names, in same order as sample info metadata
-#   Column(1) (row names) should contain the gene IDs
-#   Cell(1,1) should be empty
-#   Column names and row names should be in quotation marks: "name"
-#     to add quotation marks to cells, highlight cells -> Format Cells -> Custom -> enter \"@\" into Type field
-#   Name file name.txt, type: CSV (comma separated values)
-#     check the csv file for extra quotation marks
-#     remove extra quotation marks in ms word using search and replace function
-#     delete comma after the column names, if present    
-#   Refer to count_matrix_ensembl.txt for correct format 
+# The csv file must be formmated correctly
+# For help converting excel file into the correct csv format, use format_excel_file.R script
 
 # Store the sample metadata
 samples.meta = read.csv('samples_info_18bswitch.txt')
@@ -32,3 +23,17 @@ dds = DESeqDataSetFromMatrix(countData = counts.mat, colData = samples.meta, des
 # Create DEG object (this is for edgeR)
 dge = DGEList(counts = counts.mat, samples = samples.meta)
 # Continue with Part 6 edgeR
+
+################################################################################################
+# Instructions for manual converstion of excel file into csv for importing to R
+# Converting count matrix excel file to csv for importing:
+#   Row(1) (Column names) should be sample names, in same order as sample info metadata
+#   Column(1) (row names) should contain the gene IDs
+#   Cell(1,1) should be empty
+#   Column names and row names should be in quotation marks: "name"
+#     to add quotation marks to cells, highlight cells -> Format Cells -> Custom -> enter \"@\" into Type field
+#   Name file name.txt, type: CSV (comma separated values)
+#     check the csv file for extra quotation marks
+#     remove extra quotation marks in ms word using search and replace function
+#     delete comma after the column names, if present    
+#   Refer to count_matrix_ensembl.txt for correct format 
