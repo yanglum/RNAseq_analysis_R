@@ -15,9 +15,11 @@ plotSmear(lrt, de.tags=rownames(tt$table))
 #   de.tags defines rownames for genes identified as being differentially expressed
 
 # Heatmap of the most significant genes
-no_sig_genes = sum(results.deseq2$padj<.1, na.rm=T) # this is the number of significant genes
-mat = assay(vsd)[head(order(results.deseq2$padj), no_sig_genes), ] 
-#   significant genes in results.deseq2 (head function with argument for how many to show)
+#no_sig_genes = sum(results.deseq2$padj<.1, na.rm=T) # this is the number of significant genes
+mat = assay(vsd)[head(order(results.deseq2$padj), 20), ] 
+# this will plot the top 20 genes
+# to plot all of the significant genes, change 20 to no_sign_genes. 
+#   Be careful though that the number of significant genes isn't too high (difficult to plot)
 mat = mat - rowMeans(mat)
 df = as.data.frame(colData(vsd)[,c('Genotype', 'IP')]) 
 #   this is what to plot by; colData(vsd) = sample metadata

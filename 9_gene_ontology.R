@@ -7,11 +7,12 @@
 
 # GO (BP) with DESeq2 results
 results.deseq2.tested = results.deseq2.LFC1[ !is.na(results.deseq2.LFC1$padj), ]
-# use only genes with greater than 2 fold change
 genelistdown.deseq2 = factor( as.integer( results.deseq2.tested$padj < .1 
                                           & results.deseq2.tested$log2FoldChange < 0))
 # now identify those genes that are downregulated, with padj < .1
-names(genelistdown.deseq2) = rownames(results.deseq2.tested) 
+results.deseq2.tested$gene.id = sapply(strsplit(row.names(results.deseq2.tested), split='.', fixed=T), 
+                                       function(x) (x[1])) 
+names(genelistdown.deseq2) = results.deseq2.tested$gene.id
 GO.deseq2 = new( "topGOdata", ontology = 'BP',   # ontology = select the subontology (MF, BP, CC)
                  allGenes = genelistdown.deseq2,
                  nodeSize = 10, annot = annFUN.org,
@@ -26,7 +27,9 @@ GenTable(GO.deseq2, GO.test.deseq2)
 results.edger.tested = results.edger.LFC1[ !is.na(results.edger.LFC1$FDR), ]
 genelistdown.edger = factor( as.integer( results.edger.tested$FDR < .1 
                                          & results.edger.tested$logFC < 0))
-names(genelistdown.edger) = rownames(results.edger.tested) 
+results.edger.tested$gene.id = sapply(strsplit(row.names(results.edger.tested), split='.', fixed=T), 
+                                       function(x) (x[1])) 
+names(genelistdown.edger) = results.edger.tested$gene.id 
 GO.edger = new( "topGOdata", ontology = 'BP', 
                 allGenes = genelistdown.edger,
                 nodeSize = 10, annot = annFUN.org,

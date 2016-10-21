@@ -38,7 +38,7 @@ tt.all = topTags(lrt, n=nrow(dge), adjust.method='BH', sort.by='none')
 results.edger = tt.all$table
   # a column here shows FDR, which is the adjusted p-value
 
-# Set threshold for fold change:
+# Set alternate hypothesis based on fold change:
 treatres = glmTreat(fit, contrast=contrast.edger, lfc = 1)
 tt.treat = topTags(treatres, n = nrow(dge), adjust.method='BH', sort.by = "none")
 results.edger.LFC1 = tt.treat$table

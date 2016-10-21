@@ -283,7 +283,7 @@ results.deseq2 = results(dds, contrast=contrast.deseq2, alpha=0.1)
 #   default multiple test correction is BH
 results.deseq2.LFC1 = results(dds, contrast=contrast.deseq2, lfcThreshold=1, alpha=0.1)
 #results.deseq2.LFC1 = results(dds, lfcThreshold=1, alpha=0.1)
-#   this only returns genes with log fold change of > 1 or < -1
+#   this recaculates p-value based on alternate hypothesis that log fold change is >1 or <-1
 
 # Accessing the results
 summary(results.deseq2) 
@@ -339,7 +339,7 @@ tt.all = topTags(lrt, n=nrow(dge), adjust.method='BH', sort.by='none')
 results.edger = tt.all$table
   # a column here shows FDR, which is similar to adjusted p-value
 
-# Set threshold for fold change:
+# Set alternate hypothesis based on fold change:
 treatres = glmTreat(fit, contrast=contrast.edger, lfc = 1)
 #treatres = glmTreat(fit, coef = ncol(design), lfc = 1)
 tt.treat = topTags(treatres, n = nrow(dge), adjust.method='BH', sort.by = "none")
@@ -420,11 +420,13 @@ plotSmear(lrt, de.tags=rownames(tt$table))
 #   recall tt$table contains only genes with FDR < 0.1
 
 # Heatmap of the most significant genes
-no_sig_genes = sum(results.deseq2$padj<.1, na.rm=T)
-# this is the number of significant genes
-mat = assay(vsd)[head(order(results.deseq2$padj), no_sig_genes), ] 
-#   significant genes in results.deseq2 (head function with argument for how many to show: sum(results...) evaluates to 20)
-#   recall vsd is the transformed dds object
+#no_sig_genes = sum(results.deseq2$padj<.1, na.rm=T) # this is the number of significant genes
+mat = assay(vsd)[head(order(results.deseq2$padj), 20), ] 
+# this will plot the top 20 genes
+# to plot all of the significant genes, change 20 to no_sign_genes. 
+#   Be careful though that the number of significant genes isn't too high (difficult to plot)
+#   head function with argument for how many to show: sum(results...)
+# recall vsd is the transformed dds object
 mat = mat - rowMeans(mat)
 df = as.data.frame(colData(vsd)[,c('Genotype', 'IP')]) 
 #   this is what to plot by; colData(vsd) = sample metadata
@@ -441,12 +443,14 @@ pheatmap(mat, annotation_col=df)
 
 # GO (BP) with DESeq2 results
 results.deseq2.tested = results.deseq2.LFC1[ !is.na(results.deseq2.LFC1$padj), ]
-# this keeps only those genes that have padj values, with greater than 2 fold change
+# this keeps only those genes that have padj values
 genelistdown.deseq2 = factor( as.integer( results.deseq2.tested$padj < .1 
                                           & results.deseq2.tested$log2FoldChange < 0))
 # now identify those genes that are down, with padj < .1
 #   these will be assigned 1; rest are 0
-names(genelistdown.deseq2) = rownames(results.deseq2.tested) # adds names to the factor
+results.deseq2.tested$gene.id = sapply(strsplit(row.names(results.deseq2.tested), split='.', fixed=T), 
+                                       function(x) (x[1])) 
+names(genelistdown.deseq2) = results.deseq2.tested$gene.id # adds names to the factor
 
 GO.deseq2 = new( "topGOdata", ontology = 'BP', 
                  allGenes = genelistdown.deseq2,
@@ -466,7 +470,9 @@ GenTable(GO.deseq2, GO.test.deseq2)
 results.edger.tested = results.edger.LFC1[ !is.na(results.edger.LFC1$FDR), ]
 genelistdown.edger = factor( as.integer( results.edger.tested$FDR < .1 
                                          & results.edger.tested$logFC < 0))
-names(genelistdown.edger) = rownames(results.edger.tested) 
+results.edger.tested$gene.id = sapply(strsplit(row.names(results.edger.tested), split='.', fixed=T), 
+                                       function(x) (x[1])) 
+names(genelistdown.edger) = results.edger.tested$gene.id
 GO.edger = new( "topGOdata", ontology = 'BP', 
                 allGenes = genelistdown.edger,
                 nodeSize = 10, annot = annFUN.org,

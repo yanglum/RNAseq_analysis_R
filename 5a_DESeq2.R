@@ -33,7 +33,7 @@ results.deseq2 = results(dds, contrast=contrast.deseq2, alpha=0.1)
   # default alpha is 0.1; if padj < alpha, then significant; set it equal to FDR 
   # default multiple test correction is BH
 results.deseq2.LFC1 = results(dds, contrast=contrast.deseq2, lfcThreshold=1, alpha=0.1)
-  # this only returns genes with log fold change of > 1 or < -1
+  # this recaculates p-value based on alternate hypothesis that log fold change is >1 or <-1
 
 # Accessing the results
 summary(results.deseq2) 
